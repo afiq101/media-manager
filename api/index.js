@@ -45,7 +45,6 @@ router.post("/upload", upload.single("upload_media"), (req, res) => {
     mimetypeArr[0] === "application" ||
     mimetypeArr[0] === "audio"
   ) {
-    connection.connect();
     var sql =
       "INSERT INTO media (name, pathurl, type, upload_date) VALUES ('" +
       origformatArr[0] +
@@ -58,19 +57,15 @@ router.post("/upload", upload.single("upload_media"), (req, res) => {
       if (error) throw error;
       res.status(200).contentType("text/plain").end("File uploaded!");
     });
-    connection.end();
   }
 });
 
 router.get("/getmedia", (req, res) => {
-  connection.connect();
   var sql = "SELECT * FROM media";
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
-    // res.status(200).contentType("text/plain").end("File uploaded!");
     res.json(results);
   });
-  connection.end();
 });
 
 module.exports = router;

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="css/tailwind.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Document</title>
@@ -42,13 +42,23 @@
           </button>
         </form>
 
-        <br /><br />
+        <br />
 
-        <div class="text-3xl mt-3">Media Data</div>
+        <div class="text-2xl mt-3">Media Data</div>
         <div class="text-xl container shadow rounded p-3 mt-2">Image</div>
-        <img src="img/iqmalhensem.jpg" width="100" alt="" />
+        <!-- <img src="img/iqmalhensem.jpg" width="100" alt="" /> -->
         <div class="text-xl container shadow rounded p-3 mt-2">Video</div>
-        <div class="text-xl container shadow rounded p-3 mt-2">Audio</div>
+        <div class="text-xl container shadow rounded p-3 mt-2">
+          Audio <br />
+          <audio controls>
+            <source
+              src="
+                uploads/No_Resolve_-_If_Love_Was_A_Gun_(NEW_SONG_TEASER!!!).mp3
+              "
+              type="audio/mp3"
+            />
+          </audio>
+        </div>
         <div class="text-xl container shadow rounded p-3 mt-2">Document</div>
         <!-- <div class="row mt-2">
         <div class="col-6">
@@ -66,6 +76,11 @@
         return {
           project_title: "Media Manager",
         };
+      },
+      mounted() {
+        axios.get("api/getmedia").then(function (res) {
+          console.log(res.data);
+        });
       },
     });
   </script>
