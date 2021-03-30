@@ -26,7 +26,7 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     // var origformatArr = file.originalname.split(".");
-    filename = file.originalname.replace(/ /g, "_")
+    filename = file.originalname.replace(/ /g, "_");
     cb(null, filename);
   },
 });
@@ -62,6 +62,17 @@ router.post("/upload", upload.single("upload_media"), (req, res) => {
     });
     connection.end();
   }
+});
+
+router.get("/getmedia", (req, res) => {
+  connection.connect();
+  var sql = "SELECT * FROM media";
+  connection.query(sql, function (error, results, fields) {
+    if (error) throw error;
+    // res.status(200).contentType("text/plain").end("File uploaded!");
+    res.json(results);
+  });
+  connection.end();
 });
 
 module.exports = router;
