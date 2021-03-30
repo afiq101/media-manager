@@ -24,8 +24,6 @@ var storage = multer.diskStorage({
     cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
-    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    // var origformatArr = file.originalname.split(".");
     filename = file.originalname.replace(/ /g, "_");
     cb(null, filename);
   },
