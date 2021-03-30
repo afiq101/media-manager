@@ -25,31 +25,33 @@
       <div
         class="container mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-sm p-3 text-white"
       >
-        <div class="title">{{ project_title }}</div>
+        <div class="text-3xl">{{ project_title }}</div>
       </div>
     </div>
-    <div class="container mx-auto mt-3">
+    <div class="container rounded mx-auto mt-3 bg-white p-3 shadow-lg">
       <form action="api/upload" enctype="multipart/form-data" method="post">
-        <input type="file" name="upload_media" id="upload_media" />
+        <input
+          type="file"
+          class="rounded w-full text-red-600 border-2 border-red-600"
+          name="upload_media"
+          id="upload_media"
+        />
         <button
-          class="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
-
+          class="py-2 px-4 mt-2 float-right font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700"
         >
+          Save Media
+        </button>
       </form>
-        Save Media
-      </button>
+
       <br /><br />
-      
-      <table style="border: 1px">
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-        </tr>
-        <tr>
-          <td>te</td>
-          <td>te</td>
-        </tr>
-      </table>
+
+      <div class="text-3xl">Media Data</div>
+      <div class="row mt-2">
+        <div class="col-6">
+          <img src="img/iqmalhensem.jpg" width="100" alt="" />
+        </div>
+        <div class="col-6">EDIT</div>
+      </div>
     </div>
   </body>
   <script>
