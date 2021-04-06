@@ -1,87 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link href="css/tailwind.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Document</title>
-    <!-- <style>
-      .btn {
-        @apply py-2 px-4 font-semibold rounded-lg shadow-md;
-      }
-      .btn-green {
-        @apply text-white bg-green-500 hover:bg-green-700;
-      }
-    </style> -->
-  </head>
 
-  <body style="background-color: #f2f2f2">
-    <div id="app">
-      <!-- <h2>This is Media Manager</h2> -->
-      <div
-        class="container mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded p-3 text-white mt-8"
-      >
-        <div class="text-3xl">{{ project_title }}</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link href="css/tailwind.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.css"
+    integrity="sha512-HHYZlJVYgHVdz/pMWo63/ya7zc22sdXeqtNzv4Oz76V3gh7R+xPqbjNUp/NRmf0R85J++Yg6R0Kkmz+TGYHz8g=="
+    crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.js"
+    integrity="sha512-0goo56vbVLOJt9J6TMouBm2uE+iPssyO+70sdrT+J5Xbb5LsdYs31Mvj4+LntfPuV+VlK0jcvcinWQG5Hs3pOg=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" />
+  <title>Document</title>
+  <style>
+    .myImg {
+      object-fit: cover;
+      height: 13rem;
+    }
+  </style>
+</head>
+
+<body style="background-color: #f2f2f2">
+  <div id="app">
+    <!-- <h2>This is Media Manager</h2> -->
+    <div class="container mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded p-3 text-white mt-8">
+      <div class="text-3xl">{{ project_title }}</div>
+    </div>
+    <div class="container rounded mx-auto bg-white p-3 shadow-lg">
+      <form action="api/upload" enctype="multipart/form-data" method="post">
+        <input type="file" class="rounded w-full text-red-400 border-2 border-red-400" name="upload_media"
+          id="upload_media" />
+        <button
+          class="py-2 px-4 mt-2 float-right font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700">
+          Save Media
+        </button>
+      </form>
+
+      <br />
+
+      <div class="text-2xl mt-3">Media Data</div>
+      <div id="img-media" class="text-xl container shadow rounded p-3 mt-2">
+        <center class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-2 rounded"><b>Image</b>
+        </center>
+        <div class="grid grid-flow-col auto-cols-auto">
+          <div v-for="datamedia in media" class="mt-3 px-2" v-if="datamedia.type == 'image'">
+            <div class="h-52">
+              <center>
+                <img :src="datamedia.pathurl" class="myImg" width="300" alt="">
+              </center>
+            </div>
+            <span> <b> Name :</b> {{datamedia.name}}</span><br>
+            <div class="float-right text-gray-400"><i class="fas fa-download"></i>&nbsp;&nbsp;<i
+                class="fas fa-pen-alt"></i>&nbsp;&nbsp;<i class="fas fa-trash-alt"></i></div>
+          </div>
+        </div>
       </div>
-      <div class="container rounded mx-auto bg-white p-3 shadow-lg">
-        <form action="api/upload" enctype="multipart/form-data" method="post">
-          <input
-            type="file"
-            class="rounded w-full text-red-400 border-2 border-red-400"
-            name="upload_media"
-            id="upload_media"
-          />
-          <button
-            class="py-2 px-4 mt-2 float-right font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700"
-          >
-            Save Media
-          </button>
-        </form>
-
-        <br />
-
-        <div class="text-2xl mt-3">Media Data</div>
-        <div class="text-xl container shadow rounded p-3 mt-2">Image</div>
-        <!-- <img src="img/iqmalhensem.jpg" width="100" alt="" /> -->
-        <div class="text-xl container shadow rounded p-3 mt-2">Video</div>
-        <div class="text-xl container shadow rounded p-3 mt-2">
-          Audio <br />
+      <div id="video-media" class=" text-xl container shadow rounded p-3 mt-2">
+        <center class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-2 rounded"><b>Video</b>
+        </center>
+        <div class="grid grid-flow-col auto-cols-auto">
+          <div v-for="datamedia in media" class="mt-3 px-2" v-if="datamedia.type == 'video'">
+            <!-- {{datamedia}} -->
+            <video width="320" height="120" controls>
+              <source :src="datamedia.pathurl" type="video/mp4">
+            </video>
+            <span> <b> Name :</b> {{datamedia.name}}</span>
+            <div class="float-right text-gray-400"><i class="fas fa-download"></i>&nbsp;&nbsp;<i
+                class="fas fa-pen-alt"></i>&nbsp;&nbsp;<i class="fas fa-trash-alt"></i></div>
+          </div>
+        </div>
+      </div>
+      <div id="aud-media" class="text-xl container shadow rounded p-3 mt-2">
+        <center class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-2 rounded"><b>Audio</b>
+        </center>
+        <div v-for="datamedia in media" class="mt-3 px-2" v-if="datamedia.type == 'audio'">
+          <!-- {{datamedia}} -->
           <audio controls>
-            <source
-              src="
-                uploads/No_Resolve_-_If_Love_Was_A_Gun_(NEW_SONG_TEASER!!!).mp3
-              "
-              type="audio/mp3"
-            />
+            <source :src="datamedia.pathurl" type="audio/mp3" />
           </audio>
+          <p> <b> Name :</b> {{datamedia.name}}</p>
         </div>
-        <div class="text-xl container shadow rounded p-3 mt-2">Document</div>
-        <!-- <div class="row mt-2">
-        <div class="col-6">
-          <img src="img/iqmalhensem.jpg" width="100" alt="" />
+      </div>
+      <div id="document-media" class="text-xl container shadow rounded p-3 mt-2">
+        <center class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-2 rounded"><b>Document</b>
+        </center>
+        <div v-for="datamedia in media" class="mt-3 px-2" v-if="datamedia.type == 'application'">
+          <!-- {{datamedia}} -->
+          <iframe height="200" width="400px" :src="datamedia.pathurl"></iframe>
+          <p> <b> Name :</b> {{datamedia.name}}</p>
+          <!-- <div>
+              
+          </div> -->
+          <!-- <a :href="/ViewerJS/#../datamedia.pathurl">{{datamedia.name}}</a> -->
         </div>
-        <div class="col-6">EDIT</div>
-      </div> -->
       </div>
     </div>
-  </body>
-  <script>
-    var app = new Vue({
-      el: "#app",
-      data() {
-        return {
-          project_title: "Media Manager",
-        };
-      },
-      mounted() {
-        axios.get("api/getmedia").then(function (res) {
-          console.log(res.data);
-        });
-      },
-    });
-  </script>
+  </div>
+</body>
+<script>
+  var app = new Vue({
+    el: "#app",
+    data: {
+      project_title: "Media Manager",
+      media: []
+    },
+    mounted() {
+      axios.get("api/getmedia").then((res) => {
+        console.log(res.data);
+        if (res.data.length != 0) {
+          for (let i = 0; i < res.data.length; i++) {
+            this.media.push(res.data[i])
+          }
+        }
+      });
+    },
+  });
+</script>
+
 </html>

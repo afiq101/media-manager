@@ -43,19 +43,26 @@ router.post("/upload", upload.single("upload_media"), (req, res) => {
     mimetypeArr[0] === "image" ||
     mimetypeArr[0] === "text" ||
     mimetypeArr[0] === "application" ||
-    mimetypeArr[0] === "audio"
+    mimetypeArr[0] === "audio" ||
+    mimetypeArr[0] === "video"
   ) {
     var sql =
       "INSERT INTO media (name, pathurl, type, upload_date) VALUES ('" +
       origformatArr[0] +
-      "','img/" +
+      "','uploads/" +
       filename +
       "','" +
       mimetypeArr[0] +
       "',NOW())";
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
-      res.status(200).contentType("text/plain").end("File uploaded!");
+      // res.status(200).contentType("text/plain").end("File uploaded!");
+      // req.flash('success', 'File has been successfully uploaded!');
+      // res.redirect(200, "/");
+      res.writeHead(302, {
+        'Location': '/?success=true'
+    });
+    res.end();  
     });
   }
 });
